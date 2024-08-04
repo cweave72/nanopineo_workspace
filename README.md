@@ -37,3 +37,39 @@ To simply activate the environment (previously ran `--init`):
 ```bash
 . init_build.sh
 ```
+
+## Build Steps
+
+1. Source environment from checkout directory:
+`. init_build.sh`
+
+2. Build the image:
+`bitbake core-image-lab`
+
+3. Determine the sdcard device via `lsblk`.
+
+4. Insert an sdcard into reader and verify which device it is (i.e. sdb).
+Then run from the build directory (assuming the sdcard device is `/dev/sdb`):
+```bash
+sudo dd \
+  if=tmp/deploy/images/nanopi-neo/core-image-lab-nanopi-neo.rootfs.wic \
+  of=/dev/sdb
+```
+
+5. Insert sdcard into the target and reboot.
+
+View the tools included in the image in:
+`meta-nanopineo/recipes-core/images/core-image-lab.bb`
+
+## Connect to NanoPi NEO
+
+The nanopi neo will DHCP an IP address when connected to a LAN.
+
+Ping the board (note the IP address of the neo):
+`ping nanopi-neo.local`
+
+ssh to the board:
+`ssh root@nanopi-neo.local`
+or
+`ssh root@<ip>`
+
